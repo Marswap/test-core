@@ -16,24 +16,24 @@
 #include "pton/messages.fc";
 
 () recv_internal(int my_balance, int msg_value, cell in_msg_full, slice in_msg_body) impure {
-    if (in_msg_body.slice_empty?()) { 
+    if (in_msg_body.slice_empty?()) {
         return ();
     }
 
     var cs = in_msg_full.begin_parse();
     var flags = cs~load_uint(4);
-    
+
     load_storage();
 
     if (flags & 1) {
         return ();
     }
-    
+
     slice sender_address = cs~load_msg_addr();
-    cs~load_msg_addr(); 
-    cs~load_coins(); 
-    cs~skip_bits(1); 
-    cs~load_coins(); 
+    cs~load_msg_addr();
+    cs~load_coins();
+    cs~skip_bits(1);
+    cs~load_coins();
     int fwd_fee = cs~load_coins();
 
     force_chain(WORKCHAIN, sender_address, WRONG_WORKCHAIN);
@@ -80,11 +80,11 @@
 
     if (op == transfer_notification) {
         (int jetton_amount, slice from_user) = (in_msg_body~load_coins(), in_msg_body~load_msg_addr());
-        cell ref_cs = in_msg_body~load_ref(); 
+        cell ref_cs = in_msg_body~load_ref();
         slice ref_ds = ref_cs.begin_parse();
-        
+
         throw_unless(INVALID_AMOUNT, jetton_amount > 0);
-        
+
         (int transferred_op, slice token_wallet1) = (ref_ds~load_uint(32), ref_ds~load_msg_addr());
         force_chain(WORKCHAIN, token_wallet1, WRONG_WORKCHAIN);
 
@@ -103,7 +103,7 @@
             if (transferred_op == swap) {
                 (int min_out, slice to_address, int has_ref) = (ref_ds~load_coins(), ref_ds~load_msg_addr(), ref_ds~load_uint(1));
                 (_, slice pool_address) = get_pool_state_init_and_address(sender_address, token_wallet1);
-                
+
                 builder body = begin_cell()
                     .store_uint(swap, 32)
                     .store_uint(query_id, 64)
@@ -115,7 +115,7 @@
 
                 builder body_ref = begin_cell()
                     .store_slice(from_user); ;; real caller
-                
+
                 if (has_ref) {
                     slice ref_address = ref_ds~load_msg_addr();
                     body_ref = body_ref.store_slice(ref_address);
@@ -158,7 +158,7 @@
     if (op == proxy_provide_liquidity) {
         int jetton_amount = in_msg_body~load_coins();
         cell fwd_payload = in_msg_body~load_ref();
-    
+
         cell wallet_state_init = calculate_proxy_wallet_state_init(my_address(), my_address(), storage::pton_wallet_code);
         slice to_wallet_address = calculate_jetton_wallet_address(wallet_state_init);
 
@@ -166,11 +166,11 @@
             .store_uint(op::transfer, 32)
             .store_uint(query_id, 64)
             .store_coins(jetton_amount)
-            .store_slice(my_address()) 
-            .store_slice(sender_address) 
-            .store_uint(0, 1) 
-            .store_coins(ton_for_fee) 
-            .store_uint(1, 1) 
+            .store_slice(my_address())
+            .store_slice(sender_address)
+            .store_uint(0, 1)
+            .store_coins(ton_for_fee)
+            .store_uint(1, 1)
             .store_ref(fwd_payload)
         .end_cell();
 
@@ -181,7 +181,7 @@
     if (op == proxy_swap) {
         int jetton_amount = in_msg_body~load_coins();
         cell fwd_payload = in_msg_body~load_ref();
-    
+
         cell wallet_state_init = calculate_proxy_wallet_state_init(my_address(), my_address(), storage::pton_wallet_code);
         slice to_wallet_address = calculate_jetton_wallet_address(wallet_state_init);
 
@@ -189,11 +189,11 @@
             .store_uint(op::transfer, 32)
             .store_uint(query_id, 64)
             .store_coins(jetton_amount)
-            .store_slice(my_address()) 
-            .store_slice(sender_address) 
-            .store_uint(0, 1) 
+            .store_slice(my_address())
+            .store_slice(sender_address)
+            .store_uint(0, 1)
             .store_coins(ton_for_fee)
-            .store_uint(1, 1) 
+            .store_uint(1, 1)
             .store_ref(fwd_payload)
         .end_cell();
 
@@ -209,7 +209,7 @@
 
     ;; make sure that the message has been processed
     if (handle_getter_messages(op, query_id, sender_address, in_msg_body)) {
-        return (); 
+        return ();
     }
 
     throw(0xffff);

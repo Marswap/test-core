@@ -4,11 +4,11 @@ import { TupleItemSlice } from 'ton-core/dist/tuple/tuple';
 import { PoolSlice, PoolValue } from './helpers/utils';
 
 export type RouterConfig = {
-    isLocked: boolean; 
-    adminAddress: Address; 
+    isLocked: boolean;
+    adminAddress: Address;
     pTonWalletCode: Cell;
-    LPWalletCode: Cell; 
-    poolCode: Cell; 
+    LPWalletCode: Cell;
+    poolCode: Cell;
     content: Cell;
     LPAccountCode: Cell;
 };
@@ -61,9 +61,9 @@ export class Router implements Contract {
 
     async sendProvideLiquidity(provider: ContractProvider, via: Sender,
         params: {
-            jettonAmount: bigint; 
-            fromAddress: Address; 
-            walletTokenBAddress: Address; 
+            jettonAmount: bigint;
+            fromAddress: Address;
+            walletTokenBAddress: Address;
             minLPOut: bigint;
         }
     ) {
@@ -88,36 +88,37 @@ export class Router implements Contract {
 
     async sendProxyProvideLiquidity(provider: ContractProvider, via: Sender,
         params: {
-            jettonAmount: bigint; 
-            walletTokenBAddress: Address; 
+            jettonAmount: bigint;
+            walletTokenBAddress: Address;
             minLPOut: bigint;
         }
     ) {
         await provider.internal(via, {
-            value: toNano('1'),
+            value: toNano('0.5') + params.jettonAmount,
             sendMode: SendMode.PAY_GAS_SEPARATELY,
             body: beginCell()
                 .storeUint(Opcodes.proxyProvideLiquidity, 32)
                 .storeUint(0, 64)
                 .storeCoins(params.jettonAmount)
-                .storeRef(beginCell()
-                    .storeUint(0xfcf9e58f, 32)
-                    .storeAddress(params.walletTokenBAddress)
-                    .storeCoins(params.minLPOut)
-                .endCell()
+                .storeRef(
+                    beginCell()
+                        .storeUint(0xfcf9e58f, 32)
+                        .storeAddress(params.walletTokenBAddress)
+                        .storeCoins(params.minLPOut)
+                        .endCell()
                 )
-            .endCell(),
+                .endCell(),
         });
     }
 
-    async sendSwap(provider: ContractProvider, via: Sender, 
-        params: { 
-            jettonAmount: bigint; 
-            fromAddress: Address; 
-            walletTokenBAddress: Address; 
-            toAddress: Address; 
-            expectedOutput: bigint; 
-            refAddress?: Address; 
+    async sendSwap(provider: ContractProvider, via: Sender,
+        params: {
+            jettonAmount: bigint;
+            fromAddress: Address;
+            walletTokenBAddress: Address;
+            toAddress: Address;
+            expectedOutput: bigint;
+            refAddress?: Address;
         }
     ) {
         let fwdPayload = beginCell()
@@ -146,11 +147,11 @@ export class Router implements Contract {
     async sendProxySwap(provider: ContractProvider, via: Sender,
         params: {
             value: bigint;
-            jettonAmount: bigint; 
-            walletTokenBAddress: Address; 
-            toAddress: Address; 
-            expectedOutput: bigint; 
-            refAddress?: Address; 
+            jettonAmount: bigint;
+            walletTokenBAddress: Address;
+            toAddress: Address;
+            expectedOutput: bigint;
+            refAddress?: Address;
         }
     ) {
         let fwdPayload = beginCell()
@@ -163,7 +164,7 @@ export class Router implements Contract {
                 fwdPayload.storeUint(1, 1).storeAddress(params.refAddress);
             }
 
-        
+
         await provider.internal(via, {
             value: params.value,
             sendMode: SendMode.PAY_GAS_SEPARATELY,
@@ -178,13 +179,13 @@ export class Router implements Contract {
         });
     }
 
-    async sendPayTo(provider: ContractProvider, via: Sender, 
-        params: { 
-            owner: Address; 
-            tokenAAmount: bigint; 
-            walletTokenAAddress: Address; 
-            tokenBAmount: bigint; 
-            walletTokenBAddress: Address 
+    async sendPayTo(provider: ContractProvider, via: Sender,
+        params: {
+            owner: Address;
+            tokenAAmount: bigint;
+            walletTokenAAddress: Address;
+            tokenBAmount: bigint;
+            walletTokenBAddress: Address
         }
 
     ) {
@@ -257,8 +258,8 @@ export class Router implements Contract {
     }
 
     async sendInitCodeUpgrade(provider: ContractProvider, via: Sender,
-        params: { 
-            newCode: Cell; 
+        params: {
+            newCode: Cell;
         }
     ) {
         await provider.internal(via, {
@@ -273,8 +274,8 @@ export class Router implements Contract {
     }
 
     async sendInitAdminUpgrade(provider: ContractProvider, via: Sender,
-        params: { 
-            newAdmin: Address; 
+        params: {
+            newAdmin: Address;
         }
     ) {
         await provider.internal(via, {
@@ -331,7 +332,7 @@ export class Router implements Contract {
             .endCell()
         });
     }
-      
+
     async sendLock(provider: ContractProvider, via: Sender) {
         await provider.internal(via, {
             value: toNano('0.05'),

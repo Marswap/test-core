@@ -11,4 +11,4 @@ const HOLE_ADDRESS = "EQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAM9c"a;
 const BASE_URI = "https://lp.optus.fi/"u;
 (cell) empty_cell() asm "<b b> PUSHREF";
 
-const int ton_for_fee = 400000000; 
+const int ton_for_fee = 400000000;
