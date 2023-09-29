@@ -94,7 +94,7 @@ export class Router implements Contract {
         }
     ) {
         await provider.internal(via, {
-            value: toNano('10.5'),
+            value: toNano('1'),
             sendMode: SendMode.PAY_GAS_SEPARATELY,
             body: beginCell()
                 .storeUint(Opcodes.proxyProvideLiquidity, 32)

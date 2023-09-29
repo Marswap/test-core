@@ -5,7 +5,7 @@ import { JettonMinterA } from '../wrappers/JettonMinterA';
 
 export async function run(provider: NetworkProvider, args: string[]) {
 
-    const routerAddress = Address.parse('EQARK2zDjIFAMW00WT9Pdb5pmi61uOH1kBkgMXkY49Y58XXu'); 
+    const routerAddress = Address.parse('EQBt-QVoIAa-_to1KHfQWmSoWZfBGrA-_Vx0YGX7BMoD865_'); 
 
     const router = provider.open(Router.createFromAddress(routerAddress));
 
@@ -16,7 +16,7 @@ export async function run(provider: NetworkProvider, args: string[]) {
     const routerJettonWalletBAddress = await jettonMinterA.getWalletAddress(routerAddress);
 
     await router.sendProxyProvideLiquidity(provider.sender(), {
-        jettonAmount: toNano('10'),
+        jettonAmount: 1001n,
         walletTokenBAddress: routerJettonWalletBAddress,
         minLPOut: 1n,
     });

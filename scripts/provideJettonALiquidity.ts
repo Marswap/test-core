@@ -9,14 +9,14 @@ export async function run(provider: NetworkProvider, args: string[]) {
 
     const userJettonWalletA = provider.open(JettonWalletA.createFromAddress(userJettonWalletAAddress));
 
-    const routerAddress = Address.parse('EQARK2zDjIFAMW00WT9Pdb5pmi61uOH1kBkgMXkY49Y58XXu');
+    const routerAddress = Address.parse('EQBt-QVoIAa-_to1KHfQWmSoWZfBGrA-_Vx0YGX7BMoD865_');
 
     const router = provider.open(Router.createFromAddress(routerAddress));
 
     const routerJettonWalletBAddress = await router.getWalletAddress(routerAddress);
 
     await userJettonWalletA.sendTransfer(provider.sender(), {
-        jettonAmount: toNano('10'),
+        jettonAmount: 10000n,
         toAddress: routerAddress, 
         fromAddress: provider.sender().address as Address, 
         fwdAmount: toNano('0.8'),
