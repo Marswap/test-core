@@ -123,8 +123,7 @@ describe('Router', () => {
             walletTokenBAddress: routerJettonBWalletAddress,
             expectedOutput: 1000n,
             toAddress: user.address,
-            refAddress: randomAddress(),
-            value: toNano('0.5')
+            refAddress: randomAddress()
         });
 
         expect(proxySwapResult.transactions).toHaveTransaction({

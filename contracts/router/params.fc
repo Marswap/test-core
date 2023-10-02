@@ -12,3 +12,4 @@ const BASE_URI = "https://lp.optus.fi/"u;
 (cell) empty_cell() asm "<b b> PUSHREF";
 
 const int ton_for_fee = 400000000;
+const int fee::gas_consumption = 13000000;

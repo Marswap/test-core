@@ -146,7 +146,6 @@ export class Router implements Contract {
 
     async sendProxySwap(provider: ContractProvider, via: Sender,
         params: {
-            value: bigint;
             jettonAmount: bigint;
             walletTokenBAddress: Address;
             toAddress: Address;
@@ -166,7 +165,7 @@ export class Router implements Contract {
 
 
         await provider.internal(via, {
-            value: params.value,
+            value: toNano('0.5') + params.jettonAmount,
             sendMode: SendMode.PAY_GAS_SEPARATELY,
             body: beginCell()
                 .storeUint(Opcodes.proxySwap, 32)

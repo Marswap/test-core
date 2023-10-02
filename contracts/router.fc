@@ -157,6 +157,8 @@
 
     if (op == proxy_provide_liquidity) {
         int jetton_amount = in_msg_body~load_coins();
+        throw_unless(NOT_ENOUGH_TONS, msg_value >= jetton_amount + ton_for_fee + fee::gas_consumption);
+
         cell fwd_payload = in_msg_body~load_ref();
 
         cell wallet_state_init = calculate_proxy_wallet_state_init(my_address(), my_address(), storage::pton_wallet_code);
@@ -180,6 +182,8 @@
 
     if (op == proxy_swap) {
         int jetton_amount = in_msg_body~load_coins();
+        throw_unless(NOT_ENOUGH_TONS, msg_value >= jetton_amount + ton_for_fee + fee::gas_consumption);
+
         cell fwd_payload = in_msg_body~load_ref();
 
         cell wallet_state_init = calculate_proxy_wallet_state_init(my_address(), my_address(), storage::pton_wallet_code);
