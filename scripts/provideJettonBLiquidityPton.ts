@@ -8,7 +8,7 @@ export async function run(provider: NetworkProvider, args: string[]) {
 
     // Minter A
 
-    const routerAddress = Address.parse('EQDnudr52XLBFAK0c9D9Kw7kNAtoDf9nAt-a7luKl2gT-mEG');
+    const routerAddress = Address.parse('EQBpjR6BdZSL1XqpNAWg65nJNBhE-EZ3F-WK3w-sjvilUUgq');
 
     const jettonMinterA = provider.open(Router.createFromAddress(routerAddress));
 
@@ -33,7 +33,7 @@ export async function run(provider: NetworkProvider, args: string[]) {
     // provide liq
 
     await userJettonWalletB.sendTransfer(provider.sender(), {
-        jettonAmount: 10000n,
+        jettonAmount: 2002n,
         toAddress: routerAddress,
         fromAddress: provider.sender().address as Address,
         fwdAmount: toNano('0.4'),
