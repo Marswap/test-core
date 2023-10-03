@@ -105,7 +105,7 @@ export class Router implements Contract {
                         .storeUint(0xfcf9e58f, 32)
                         .storeAddress(params.walletTokenBAddress)
                         .storeCoins(params.minLPOut)
-                        .endCell()
+                    .endCell()
                 )
                 .endCell(),
         });

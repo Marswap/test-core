@@ -1,4 +1,4 @@
-import { Blockchain, SandboxContract, TreasuryContract } from '@ton-community/sandbox';
+import { Blockchain, SandboxContract, TreasuryContract, internal } from '@ton-community/sandbox';
 import { Cell, beginCell, toNano } from 'ton-core';
 import { Router } from '../wrappers/Router';
 import '@ton-community/test-utils';
@@ -9,6 +9,7 @@ import { JettonMinterB } from '../wrappers/JettonMinterB';
 import { JettonWalletB } from '../wrappers/JettonWalletB';
 import { Pool } from '../wrappers/Pool';
 import { randomAddress } from '@ton-community/test-utils';
+import { Opcodes } from '../wrappers/helpers/op';
 
 describe('Router', () => {
     let routerCode: Cell;
@@ -96,6 +97,42 @@ describe('Router', () => {
     it('should deploy', async () => {
         // the check is done inside beforeEach
         // blockchain and router are ready to use
+    });
+
+    it('should not allow to provide pTon liquidity in case of insufficient msg_value', async () => {
+        const proxyProvideLiquidityResult = await blockchain.sendMessage(
+            internal({
+                from: user.address,
+                to: router.address,
+                value: toNano('0.5'),
+                body: beginCell()
+                .storeUint(Opcodes.proxyProvideLiquidity, 32)
+                .storeUint(0, 64)
+                .storeCoins(toNano('1'))
+                .storeRef(
+                    beginCell()
+                        .storeUint(0xfcf9e58f, 32)
+                        .storeAddress(tokenWallet1.address)
+                        .storeCoins(1n)
+                    .endCell()
+                )
+                .endCell()
+            })
+        );
+
+        expect(proxyProvideLiquidityResult.transactions).toHaveTransaction({
+            from: user.address,
+            on: router.address,
+            success: false,
+            exitCode: 89
+        });
+
+        expect(proxyProvideLiquidityResult.transactions).toHaveTransaction({
+            from: router.address,
+            on: user.address,
+            success: true,
+            inMessageBounced: true
+        });
     });
 
     it('should fulfill the provide_lp request', async () => {

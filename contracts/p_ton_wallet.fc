@@ -44,6 +44,8 @@ const special::unwrap_op_length = 23;
   force_chain(to_owner_address);
   (int balance, slice owner_address, slice jetton_master_address, cell jetton_wallet_code) = get_wallet_data();
 
+  throw_unless(error::unauthorized_transfer, equal_slice_bits(owner_address, sender_address));
+
   cell state_init = calculate_proxy_wallet_state_init(to_owner_address, jetton_master_address, jetton_wallet_code);
   slice to_wallet_address = calculate_jetton_wallet_address(state_init);
   slice response_address = in_msg_body~load_msg_addr();
