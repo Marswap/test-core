@@ -41,7 +41,7 @@ cell pack_pool_data(slice token0_address, slice token1_address, cell jetton_lp_w
     cell state_init = state_init_builder
         .store_uint(0, 1)
         .end_cell();
-    
+
     return (state_init, get_serialized_address(WORKCHAIN, cell_hash(state_init)));
 }
 

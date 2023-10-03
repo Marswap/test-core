@@ -6,10 +6,10 @@
 (int, slice, cell, cell) load_data() inline {
   slice ds = get_data().begin_parse();
   return (
-      ds~load_coins(), 
-      ds~load_msg_addr(), 
-      ds~load_ref(), 
-      ds~load_ref()  
+      ds~load_coins(),
+      ds~load_msg_addr(),
+      ds~load_ref(),
+      ds~load_ref()
   );
 }
 
@@ -33,21 +33,21 @@
     .store_uint(4 + 2 + 1, 1 + 4 + 4 + 64 + 32 + 1 + 1 + 1)
     .store_ref(state_init)
     .store_ref(master_msg);
-  send_raw_message(msg.end_cell(), 1); 
+  send_raw_message(msg.end_cell(), 1);
 }
 
 () recv_internal(int msg_value, cell in_msg_full, slice in_msg_body) impure {
-    if (in_msg_body.slice_empty?()) { 
+    if (in_msg_body.slice_empty?()) {
         return ();
     }
     slice cs = in_msg_full.begin_parse();
     int flags = cs~load_uint(4);
 
-    if (flags & 1) { 
+    if (flags & 1) {
         return ();
     }
     slice sender_address = cs~load_msg_addr();
-  
+
     int op = in_msg_body~load_uint(32);
     int query_id = in_msg_body~load_uint(64);
 
@@ -59,7 +59,7 @@
         int amount = in_msg_body~load_coins();
         cell master_msg = in_msg_body~load_ref();
         slice master_msg_cs = master_msg.begin_parse();
-        master_msg_cs~skip_bits(32 + 64); 
+        master_msg_cs~skip_bits(32 + 64);
         int jetton_amount = master_msg_cs~load_coins();
         mint_tokens(to_address, jetton_wallet_code, amount, master_msg);
         save_data(total_supply + jetton_amount, admin_address, content, jetton_wallet_code);
@@ -76,7 +76,7 @@
         slice response_address = in_msg_body~load_msg_addr();
         if (response_address.preload_uint(2) != 0) {
           var msg = begin_cell()
-            .store_uint(0x10, 6) 
+            .store_uint(0x10, 6)
             .store_slice(response_address)
             .store_coins(0)
             .store_uint(0, 1 + 4 + 4 + 64 + 32 + 1 + 1)
@@ -87,7 +87,7 @@
         return ();
     }
 
-    if (op == 3) { 
+    if (op == 3) {
         throw_unless(73, equal_slices(sender_address, admin_address));
         slice new_admin_address = in_msg_body~load_msg_addr();
         save_data(total_supply, new_admin_address, content, jetton_wallet_code);

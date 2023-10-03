@@ -62,15 +62,15 @@ export class Pool implements Contract {
         });
     }
 
-    async sendSwap(provider: ContractProvider, via: Sender, 
-        params: { 
-            fromAddress: Address; 
-            tokenWallet: Address; 
-            jettonAmount: bigint; 
-            toAddress: Address; 
-            minOutput: bigint; 
-            hasRef?: boolean; 
-            refAddress?: Address; 
+    async sendSwap(provider: ContractProvider, via: Sender,
+        params: {
+            fromAddress: Address;
+            tokenWallet: Address;
+            jettonAmount: bigint;
+            toAddress: Address;
+            minOutput: bigint;
+            hasRef?: boolean;
+            refAddress?: Address;
         }
     ) {
         await provider.internal(via, {
@@ -96,10 +96,10 @@ export class Pool implements Contract {
     }
 
     async sendProvideLiquidity(provider: ContractProvider, via: Sender,
-        params: { 
-            fromAddress: Address; 
-            jettonAmount0: bigint; 
-            jettonAmount1: bigint; 
+        params: {
+            fromAddress: Address;
+            jettonAmount0: bigint;
+            jettonAmount1: bigint;
             minLPOut: bigint;
         }
     ) {
@@ -118,7 +118,7 @@ export class Pool implements Contract {
     }
 
     async sendCbAddLiquidity(provider: ContractProvider, via: Sender,
-        params: { 
+        params: {
             totAm0: bigint;
             totAm1: bigint;
             userAddress: Address;
@@ -173,7 +173,7 @@ export class Pool implements Contract {
             .endCell()
         });
     }
-    
+
     async getLpAccountAddress(provider: ContractProvider, address: Address): Promise<Address> {
         const result = await provider.get('get_lp_account_address', [
             {

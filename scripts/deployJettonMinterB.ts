@@ -5,7 +5,7 @@ import { compile, NetworkProvider } from '@ton-community/blueprint';
 export async function run(provider: NetworkProvider) {
 
     const jettonMinterB = provider.open(JettonMinterB.createFromConfig({
-        
+
         adminAddress: provider.sender().address as Address,
         content: beginCell()
             .storeUint(1, 8)

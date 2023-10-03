@@ -11,6 +11,6 @@ export async function run(provider: NetworkProvider, args: string[]) {
     await jettonMinterA.sendMint(provider.sender(), {
         amount: toNano('0.5'),
         jettonAmount: toNano('100'),
-        toAddress: provider.sender().address as Address, 
+        toAddress: provider.sender().address as Address,
     });
 }

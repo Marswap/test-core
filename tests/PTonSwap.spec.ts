@@ -36,7 +36,7 @@ describe('Router', () => {
             LPAccountCode: await compile('LpAccount'),
             content: new Cell(),
             pTonWalletCode: await compile('PTonWallet'),
-    
+
         }, routerCode));
 
         jettonBMinter = blockchain.openContract(JettonMinterB.createFromConfig({
@@ -89,14 +89,14 @@ describe('Router', () => {
         expect(newTotalBSupply).toEqual(toNano('100000'));
 
         const userJettonBWallet = blockchain.openContract(JettonWalletB.createFromAddress(userJettonBWalletAddress));
-       
+
         const routerJettonBWalletAddress = await jettonBMinter.getWalletAddress(router.address);
         const routerPTonWalletAddress = await router.getWalletAddress(router.address);
 
         await router.sendDeployPTonWallet(admin.getSender());
 
         expect((await blockchain.getContract(routerPTonWalletAddress)).accountState?.type == 'active');
-        
+
         await router.sendProxyProvideLiquidity(user.getSender(), {
             jettonAmount: toNano('1'),
             walletTokenBAddress: routerJettonBWalletAddress,
@@ -107,12 +107,12 @@ describe('Router', () => {
 
         await userJettonBWallet.sendTransfer(user.getSender(), {
             jettonAmount: toNano('1'),
-            toAddress: router.address, 
-            fromAddress: user.address, 
+            toAddress: router.address,
+            fromAddress: user.address,
             fwdAmount: toNano('0.4'),
             fwdPayload: beginCell()
                 .storeUint(0xfcf9e58f, 32)
-                .storeAddress(routerPTonWalletAddress) 
+                .storeAddress(routerPTonWalletAddress)
                 .storeCoins(1n)
             .endCell(),
             value: toNano('1')

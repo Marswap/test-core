@@ -2,7 +2,7 @@
 
 () handle_pool_messages(int op, int query_id, int my_balance, int msg_value, slice in_msg_body) impure inline {
 
-    if (op == add_liquidity) { 
+    if (op == add_liquidity) {
 
         (int new_amount0, int new_amount1, int min_lp_out) = (in_msg_body~load_coins(), in_msg_body~load_coins(), in_msg_body~load_coins());
 
@@ -23,13 +23,13 @@
             storage::amount1 = 0;
         }
         else {
-            if (msg_value > MIN_TONS_FOR_RESERVE) { 
+            if (msg_value > MIN_TONS_FOR_RESERVE) {
                 send_empty_message(msg_value - MIN_TONS_FOR_RESERVE, storage::user_address, 0);
             }
-        } 
+        }
         save_storage();
         return ();
     }
-    
+
     throw(WRONG_OP);
 }

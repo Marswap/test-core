@@ -10,12 +10,12 @@
   if (storage::protocol_fee > 0) {
     protocol_fee_out = divc(base_out * storage::protocol_fee, FEE_DIVIDER);
   }
-  
+
   if (has_ref & (storage::ref_fee > 0)) {
     ref_fee_out = divc(base_out * storage::ref_fee, FEE_DIVIDER);
     protocol_fee_out -= ref_fee_out;
   }
-  
+
   base_out -= protocol_fee_out + ref_fee_out;
   return (base_out, protocol_fee_out, ref_fee_out);
 }
@@ -30,7 +30,7 @@
     .store_coins(amount)
     .store_slice(my_address())
     .store_slice(to)
-    .store_coins(0) 
+    .store_coins(0)
     .store_uint(0, 1);
   send_message_with_stateinit(0, to_wallet_address, state_init, body.end_cell(), CARRY_REMAINING_GAS);
 }

@@ -1,12 +1,12 @@
 global slice storage::user_address;
-global slice storage::pool_address; 
+global slice storage::pool_address;
 global int storage::amount0;
 global int storage::amount1;
 
 () load_storage() impure inline {
     slice ds = get_data().begin_parse();
     storage::user_address = ds~load_msg_addr();
-    storage::pool_address = ds~load_msg_addr(); 
+    storage::pool_address = ds~load_msg_addr();
     storage::amount0 = ds~load_coins();
     storage::amount1 = ds~load_coins();
 }

@@ -6,7 +6,7 @@ import { randomAddress } from '@ton-community/test-utils';
 
 export async function run(provider: NetworkProvider, args: string[]) {
 
-    const routerAddress = Address.parse('EQAjTnR28ANDITshynZz-Js_QtIFs72xqPmxOoVFnyRi9RoG'); 
+    const routerAddress = Address.parse('EQAjTnR28ANDITshynZz-Js_QtIFs72xqPmxOoVFnyRi9RoG');
 
     const router = provider.open(Router.createFromAddress(routerAddress));
 
@@ -21,7 +21,6 @@ export async function run(provider: NetworkProvider, args: string[]) {
         walletTokenBAddress: routerJettonWalletBAddress,
         expectedOutput: 1000n,
         toAddress: provider.sender().address as Address,
-        refAddress: randomAddress(),
-        value: toNano('0.5')
+        refAddress: randomAddress()
     });
 }

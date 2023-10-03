@@ -37,7 +37,7 @@ export class JettonMinterA implements Contract {
         });
     }
 
-    async sendMint(provider: ContractProvider, via: Sender, 
+    async sendMint(provider: ContractProvider, via: Sender,
         opts: {
             toAddress: Address;
             jettonAmount: bigint;
@@ -66,12 +66,12 @@ export class JettonMinterA implements Contract {
             .endCell(),
         });
     }
-    
+
     async getTotalSupply(provider: ContractProvider): Promise<bigint> {
         const result = await provider.get('get_jetton_data', []);
         return result.stack.readBigNumber();
     }
-    
+
     async getWalletAddress(provider: ContractProvider, address: Address): Promise<Address> {
         const result = await provider.get('get_wallet_address', [
             {
@@ -81,5 +81,5 @@ export class JettonMinterA implements Contract {
         ]);
 
         return result.stack.readAddress();
-    } 
+    }
 }

@@ -35,11 +35,11 @@ export class PTonWallet implements Contract {
         });
     }
 
-    async sendProxy(provider: ContractProvider, via: Sender, 
+    async sendProxy(provider: ContractProvider, via: Sender,
         params: {
-            jettonAmount: bigint; 
-            routerAddress: Address; 
-            walletTokenBAddress: Address; 
+            jettonAmount: bigint;
+            routerAddress: Address;
+            walletTokenBAddress: Address;
             minLPOut: bigint;
         }
     ) {

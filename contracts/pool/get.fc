@@ -8,10 +8,10 @@
         storage::token0_address,
         storage::token1_address,
         storage::lp_fee,
-        storage::protocol_fee, 
+        storage::protocol_fee,
         storage::ref_fee,
         storage::protocol_fee_address,
-        storage::collected_token0_protocol_fee, 
+        storage::collected_token0_protocol_fee,
         storage::collected_token1_protocol_fee
     );
 }
@@ -25,17 +25,17 @@
 
     if (equal_slices(token_wallet, storage::token0_address)) {
             (out, protocol_fee_out, ref_fee_out) =  get_amount_out(
-            false, 
-            amount, 
-            storage::reserve0, 
+            false,
+            amount,
+            storage::reserve0,
             storage::reserve1
         );
     }
     if (equal_slices(token_wallet, storage::token1_address)) {
             (out, protocol_fee_out, ref_fee_out) =  get_amount_out(
-            false, 
-            amount, 
-            storage::reserve1, 
+            false,
+            amount,
+            storage::reserve1,
             storage::reserve0
         );
     }

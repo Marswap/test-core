@@ -35,9 +35,9 @@ export class JettonMinterB implements Contract {
             sendMode: SendMode.PAY_GAS_SEPARATELY,
             body: beginCell().endCell(),
         });
-    } 
-    
-    async sendMint(provider: ContractProvider, via: Sender, 
+    }
+
+    async sendMint(provider: ContractProvider, via: Sender,
         opts: {
             toAddress: Address;
             jettonAmount: bigint;
@@ -66,12 +66,12 @@ export class JettonMinterB implements Contract {
             .endCell(),
         });
     }
-    
+
     async getTotalSupply(provider: ContractProvider): Promise<bigint> {
         const result = await provider.get('get_jetton_data', []);
         return result.stack.readBigNumber();
     }
-    
+
     async getWalletAddress(provider: ContractProvider, address: Address): Promise<Address> {
         const result = await provider.get('get_wallet_address', [
             {

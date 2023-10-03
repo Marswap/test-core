@@ -17,12 +17,12 @@ export async function run(provider: NetworkProvider, args: string[]) {
 
     await userJettonWalletA.sendTransfer(provider.sender(), {
         jettonAmount: toNano('1'),
-        toAddress: routerAddress, 
-        fromAddress: provider.sender().address as Address, 
+        toAddress: routerAddress,
+        fromAddress: provider.sender().address as Address,
         fwdAmount: toNano('0.4'),
         fwdPayload: beginCell()
                 .storeUint(0x25938561, 32)
-                .storeAddress(routerJettonWalletBAddress) 
+                .storeAddress(routerJettonWalletBAddress)
                 .storeCoins(1001n)
                 .storeAddress(provider.sender().address as Address)
                 .storeBit(false)

@@ -1,7 +1,7 @@
 ;; get methods
 (slice) get_pool_address(slice token0, slice token1) method_id {
     load_storage();
-    throw_if(WRONG_ADDRESS, equal_slices(token0, token1)); 
+    throw_if(WRONG_ADDRESS, equal_slices(token0, token1));
     force_chain(WORKCHAIN, token0, WRONG_WORKCHAIN);
     force_chain(WORKCHAIN, token1, WRONG_WORKCHAIN);
     (_, slice pool_address) = get_pool_state_init_and_address(token0, token1);
@@ -26,9 +26,9 @@ slice addr_none() asm "<b 0 2 u, b> <s PUSHSLICE";
     load_storage();
 
     return (
-        5000000000000000000,  
-        -1,                   
-        addr_none(),        
+        5000000000000000000,
+        -1,
+        addr_none(),
         storage::content,
         storage::pton_wallet_code
     );

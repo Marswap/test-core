@@ -47,7 +47,7 @@ describe('Router', () => {
             LPAccountCode: await compile('LpAccount'),
             content: new Cell(),
             pTonWalletCode: await compile('PTonWallet'),
-    
+
         }, routerCode));
 
         jettonAMinter = blockchain.openContract(JettonMinterA.createFromConfig({
@@ -187,12 +187,12 @@ describe('Router', () => {
 
         const provideLiquidityAResult = await userJettonAWallet.sendTransfer(user.getSender(), {
                 jettonAmount: 1001n,
-                toAddress: router.address, 
-                fromAddress: user.address, 
+                toAddress: router.address,
+                fromAddress: user.address,
                 fwdAmount: toNano('1'),
                 fwdPayload: beginCell()
                     .storeUint(0xfcf9e58f, 32)
-                    .storeAddress(routerJettonBWalletAddress) 
+                    .storeAddress(routerJettonBWalletAddress)
                     .storeCoins(1)
                 .endCell(),
                 value: toNano('2')
@@ -205,15 +205,15 @@ describe('Router', () => {
         });
 
         expect((await router.getPoolsDict()).size).toEqual(1);
-        
+
         const provideLiquidityBResult = await userJettonBWallet.sendTransfer(user.getSender(), {
                 jettonAmount: 1001n,
-                toAddress: router.address, 
-                fromAddress: user.address, 
+                toAddress: router.address,
+                fromAddress: user.address,
                 fwdAmount: toNano('1'),
                 fwdPayload: beginCell()
                     .storeUint(0xfcf9e58f, 32)
-                    .storeAddress(routerJettonAWalletAddress) 
+                    .storeAddress(routerJettonAWalletAddress)
                     .storeCoins(1)
                 .endCell(),
                 value: toNano('2')
@@ -319,7 +319,7 @@ describe('Router', () => {
     it('should lock and unlock', async () => {
 
         const lockResult = await router.sendLock(admin.getSender());
-        
+
         expect(lockResult.transactions).toHaveTransaction({
             from: admin.address,
             to: router.address,
@@ -329,7 +329,7 @@ describe('Router', () => {
         expect(await router.getIsLocked()).toEqual(true);
 
         const unlockResult = await router.sendUnlock(admin.getSender());
-        
+
         expect(unlockResult.transactions).toHaveTransaction({
             from: admin.address,
             to: router.address,

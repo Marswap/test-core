@@ -39,7 +39,7 @@
         return ();
     }
 
-    if (op == reset_gas) { 
+    if (op == reset_gas) {
         throw_unless(INSUFFICIENT_GAS, my_balance > REQUIRED_TON_RESERVE);
         send_empty_message(my_balance - REQUIRED_TON_RESERVE, storage::user_address, NORMAL);
         return ();

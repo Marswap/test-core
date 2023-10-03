@@ -41,7 +41,7 @@ int sqrt(int x) inline {
     .store_uint(exit_code, 32)
     .store_uint(1, 1)
     .store_ref(begin_cell()
-      .store_coins(amount0_out) 
+      .store_coins(amount0_out)
       .store_slice(storage::token0_address)
       .store_coins(amount1_out)
       .store_slice(storage::token1_address)
@@ -71,7 +71,7 @@ slice address_to_hex_string(int value) inline {
       length += 1;
       j = j >> 4;
     }
-    
+
     int mask = 15;
     builder buffer = begin_cell();
 

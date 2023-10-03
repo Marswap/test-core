@@ -62,7 +62,7 @@ int gas_consumption() asm "15000000 PUSHINT"; ;; 0.015 TON
                      fwd_count * fwd_fee +
                      (2 * gas_consumption() + min_tons_for_storage()));
 
-  send_raw_message(msg.end_cell(), 64); 
+  send_raw_message(msg.end_cell(), 64);
   save_data(balance, owner_address, jetton_master_address, jetton_wallet_code);
 }
 
@@ -96,7 +96,7 @@ int gas_consumption() asm "15000000 PUSHINT"; ;; 0.015 TON
         .end_cell();
 
     var msg = begin_cell()
-      .store_uint(0x10, 6) 
+      .store_uint(0x10, 6)
       .store_slice(owner_address)
       .store_coins(forward_ton_amount)
       .store_uint(1, 1 + 4 + 4 + 64 + 32 + 1 + 1)
@@ -107,7 +107,7 @@ int gas_consumption() asm "15000000 PUSHINT"; ;; 0.015 TON
 
   if ((response_address.preload_uint(2) != 0) & (msg_value > 0)) {
     var msg = begin_cell()
-      .store_uint(0x10, 6) 
+      .store_uint(0x10, 6)
       .store_slice(response_address)
       .store_coins(msg_value)
       .store_uint(0, 1 + 4 + 4 + 64 + 32 + 1 + 1)
@@ -151,7 +151,7 @@ int gas_consumption() asm "15000000 PUSHINT"; ;; 0.015 TON
 }
 
 () on_bounce (slice in_msg_body) impure {
-  in_msg_body~skip_bits(32); 
+  in_msg_body~skip_bits(32);
   (int balance, slice owner_address, slice jetton_master_address, cell jetton_wallet_code) = load_data();
   int op = in_msg_body~load_uint(32);
   throw_unless(709, (op == op::internal_transfer()) | (op == op::burn_notification()));
@@ -162,7 +162,7 @@ int gas_consumption() asm "15000000 PUSHINT"; ;; 0.015 TON
 }
 
 () recv_internal(int my_balance, int msg_value, cell in_msg_full, slice in_msg_body) impure {
-  if (in_msg_body.slice_empty?()) { 
+  if (in_msg_body.slice_empty?()) {
     return ();
   }
 
@@ -173,25 +173,25 @@ int gas_consumption() asm "15000000 PUSHINT"; ;; 0.015 TON
     return ();
   }
   slice sender_address = cs~load_msg_addr();
-  cs~load_msg_addr(); 
-  cs~load_coins(); 
-  cs~skip_bits(1); 
-  cs~load_coins(); 
-  int fwd_fee = muldiv(cs~load_coins(), 3, 2); 
+  cs~load_msg_addr();
+  cs~load_coins();
+  cs~skip_bits(1);
+  cs~load_coins();
+  int fwd_fee = muldiv(cs~load_coins(), 3, 2);
 
   int op = in_msg_body~load_uint(32);
 
-  if (op == op::transfer()) { 
+  if (op == op::transfer()) {
     send_tokens(in_msg_body, sender_address, msg_value, fwd_fee);
     return ();
   }
 
-  if (op == op::internal_transfer()) { 
+  if (op == op::internal_transfer()) {
     receive_tokens(in_msg_body, sender_address, my_balance, fwd_fee, msg_value);
     return ();
   }
 
-  if (op == op::burn()) { 
+  if (op == op::burn()) {
     burn_tokens(in_msg_body, sender_address, msg_value, fwd_fee);
     return ();
   }

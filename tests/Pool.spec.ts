@@ -74,7 +74,7 @@ describe('Pool', () => {
         });
 
         expect(provideLiquidityAResult.transactions).toHaveTransaction({
-            from: router.address, 
+            from: router.address,
             to: pool.address,
             success: true,
             outMessagesCount: 1
@@ -88,9 +88,9 @@ describe('Pool', () => {
         });
 
         expect(provideLiquidityBResult.transactions).toHaveTransaction({
-            from: router.address, 
+            from: router.address,
             to: pool.address,
-            success: true, 
+            success: true,
             outMessagesCount: 1
         });
     });

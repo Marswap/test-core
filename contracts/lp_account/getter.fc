@@ -3,7 +3,7 @@
 (int) handle_getter_messages(int op, int query_id, slice sender_address, slice in_msg_body) impure inline {
     raw_reserve(0, 4);
 
-    if (op == getter_lp_account_data) { 
+    if (op == getter_lp_account_data) {
         var payload = begin_cell()
             .store_uint(getter_lp_account_data, 32)
             .store_uint(query_id, 64)

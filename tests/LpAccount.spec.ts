@@ -150,7 +150,7 @@ describe('LpAccount', () => {
 
     it('should refund', async () => {
         const wrongSenderResult = await lpAccount.sendRefundLiquidity(someone.getSender());
-        
+
         expect(wrongSenderResult.transactions).toHaveTransaction({
             from: someone.address,
             to: lpAccount.address,
@@ -162,7 +162,7 @@ describe('LpAccount', () => {
         expect(badRefundResult.transactions).toHaveTransaction({
             from: user.address,
             to: lpAccount.address,
-            success: false, 
+            success: false,
             exitCode: 80
         });
 
@@ -178,14 +178,14 @@ describe('LpAccount', () => {
         expect(successRefundResult.transactions).toHaveTransaction({
             from: user.address,
             to: lpAccount.address,
-            success: true, 
+            success: true,
             outMessagesCount: 1
         });
     });
 
     it('should reset gas', async () => {
         const wrongSenderResult = await lpAccount.sendResetGas(someone.getSender());
-        
+
         expect(wrongSenderResult.transactions).toHaveTransaction({
             from: someone.address,
             to: lpAccount.address,
