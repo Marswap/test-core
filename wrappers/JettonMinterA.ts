@@ -37,7 +37,9 @@ export class JettonMinterA implements Contract {
         });
     }
 
-    async sendMint(provider: ContractProvider, via: Sender,
+    async sendMint(
+        provider: ContractProvider,
+        via: Sender,
         opts: {
             toAddress: Address;
             jettonAmount: bigint;
@@ -61,9 +63,9 @@ export class JettonMinterA implements Contract {
                         .storeAddress(this.address)
                         .storeCoins(0)
                         .storeUint(0, 1)
-                    .endCell()
+                        .endCell()
                 )
-            .endCell(),
+                .endCell(),
         });
     }
 
@@ -76,8 +78,8 @@ export class JettonMinterA implements Contract {
         const result = await provider.get('get_wallet_address', [
             {
                 type: 'slice',
-                cell: beginCell().storeAddress(address).endCell()
-            } as TupleItemSlice
+                cell: beginCell().storeAddress(address).endCell(),
+            } as TupleItemSlice,
         ]);
 
         return result.stack.readAddress();

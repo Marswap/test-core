@@ -1,30 +1,47 @@
 import { NetworkProvider } from '@ton-community/blueprint';
 import { JettonWalletA } from '../wrappers/JettonWalletA';
 import { Address, beginCell, toNano } from 'ton-core';
+import { JettonMinterA } from '../wrappers/JettonMinterA';
+import { JettonMinterB } from '../wrappers/JettonMinterB';
 import { Router } from '../wrappers/Router';
 
 export async function run(provider: NetworkProvider, args: string[]) {
 
-    const userJettonWalletAAddress = Address.parse('EQD_xSr58MQPzG6hyKHHbgM4-J9tzBVz2LWo7LyvBIi9Glzy');
+    const routerAddress = Address.parse('EQBpjR6BdZSL1XqpNAWg65nJNBhE-EZ3F-WK3w-sjvilUUgq');
 
+    const userWalletAddressV4 = Address.parse('kQAULcjDZ4TK9huUxR4Vl_Tfa8JRooU3bhvPrmHJHZIPGdKY');
+
+    // Minter A
+
+    const jettonMinterAAddress = Address.parse('EQBaOpKcH43HIiENY-Bdqt4z_wVhxYlmS74Y6Ixp2DKNxq3T');
+
+    const jettonMinterA = provider.open(JettonMinterA.createFromAddress(jettonMinterAAddress));
+
+    // Wallet A
+
+    const userJettonWalletAAddress = await jettonMinterA.getWalletAddress(userWalletAddressV4);
     const userJettonWalletA = provider.open(JettonWalletA.createFromAddress(userJettonWalletAAddress));
 
-    const routerAddress = Address.parse('EQBt-QVoIAa-_to1KHfQWmSoWZfBGrA-_Vx0YGX7BMoD865_');
+    // Miner B
 
-    const router = provider.open(Router.createFromAddress(routerAddress));
+    const jettonMinterBAddress = Address.parse('EQDdcF7zjjnSX8Ie7B588ZxY44U3idOAZnddHGmOET8q4E2e');
 
-    const routerJettonWalletBAddress = await router.getWalletAddress(routerAddress);
+    const jettonMinterB = provider.open(JettonMinterB.createFromAddress(jettonMinterBAddress));
+
+    // Wallet B
+
+    const routerJettonWalletBAddress = await jettonMinterB.getWalletAddress(routerAddress);
 
     await userJettonWalletA.sendTransfer(provider.sender(), {
-        jettonAmount: 10000n,
+        jettonAmount: 10001n,
         toAddress: routerAddress,
         fromAddress: provider.sender().address as Address,
-        fwdAmount: toNano('0.8'),
+        fwdAmount: toNano('0.4'),
         fwdPayload: beginCell()
-                .storeUint(0xfcf9e58f, 32)
-                .storeAddress(routerJettonWalletBAddress)
-                .storeCoins(1)
+            .storeUint(0xfcf9e58f, 32)
+            .storeAddress(routerJettonWalletBAddress)
+            .storeCoins(1)
             .endCell(),
-        value: toNano('1')
+        value: toNano('0.5'),
     });
 }
