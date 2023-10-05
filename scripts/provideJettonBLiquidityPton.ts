@@ -18,11 +18,11 @@ export async function run(provider: NetworkProvider, args: string[]) {
 
     // Miner B
 
-    const jettonMinterBAddress = Address.parse('EQDdcF7zjjnSX8Ie7B588ZxY44U3idOAZnddHGmOET8q4E2e');
+    const jettonMinterBAddress = Address.parse('EQDCJL0iQHofcBBvFBHdVG233Ri2V4kCNFgfRT-gqAd3Oc86');
 
     const jettonMinterB = provider.open(JettonMinterB.createFromAddress(jettonMinterBAddress));
 
-    const userWalletAddressV4 = Address.parse('kQAULcjDZ4TK9huUxR4Vl_Tfa8JRooU3bhvPrmHJHZIPGdKY');
+    const userWalletAddressV4 = provider.sender().address as Address;
 
     // Wallet B
 
@@ -33,7 +33,7 @@ export async function run(provider: NetworkProvider, args: string[]) {
     // provide liq
 
     await userJettonWalletB.sendTransfer(provider.sender(), {
-        jettonAmount: 2002n,
+        jettonAmount: 863800n,
         toAddress: routerAddress,
         fromAddress: provider.sender().address as Address,
         fwdAmount: toNano('0.4'),

@@ -11,7 +11,7 @@ export async function run(provider: NetworkProvider) {
                 LPWalletCode: await compile('LpWallet'),
                 poolCode: await compile('Pool'),
                 LPAccountCode: await compile('LpAccount'),
-                content: beginCell().storeUint(1, 8).storeStringTail('https://lp.optus.fi/jton-proxy.json').endCell(),
+                content: beginCell().storeUint(1, 8).storeStringTail('https://lp.optus.fi/ton-proxy.json').endCell(),
                 pTonWalletCode: await compile('PTonWallet'),
             },
             await compile('Router')

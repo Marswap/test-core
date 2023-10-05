@@ -50,11 +50,11 @@
 
 (int, int) get_expected_liquidity(int jetton_amount) method_id {
     load_storage();
-    throw_unless(ZERO_OUTPUT, jetton_amount > 0); 
+    throw_unless(ZERO_OUTPUT, jetton_amount > 0);
 
-    int amount0_out = (jetton_amount * storage::reserve0) / storage::total_supply_lp; 
-    int amount1_out = (jetton_amount * storage::reserve1) / storage::total_supply_lp; 
-    
+    int amount0_out = (jetton_amount * storage::reserve0) / storage::total_supply_lp;
+    int amount1_out = (jetton_amount * storage::reserve1) / storage::total_supply_lp;
+
     throw_unless(ZERO_OUTPUT, (amount0_out > 0) & (amount1_out > 0));
 
     return (amount0_out, amount1_out);
@@ -62,10 +62,10 @@
 
 slice get_lp_account_address(slice owner_address) method_id {
     load_storage();
-    return calculate_user_lp_account_address(owner_address, my_address(), storage::lp_account_code); 
+    return calculate_user_lp_account_address(owner_address, my_address(), storage::lp_account_code);
 }
 
-;; standard jetton 'get' methods 
+;; standard jetton 'get' methods
 (int, int, slice, cell, cell) get_jetton_data() method_id {
     load_storage();
     (_, int hashpart) = parse_std_addr(my_address());
@@ -82,5 +82,5 @@ slice get_lp_account_address(slice owner_address) method_id {
 
 slice get_wallet_address(slice owner_address) method_id {
     load_storage();
-    return calculate_user_jetton_wallet_address(owner_address, my_address(), storage::jetton_lp_wallet_code); 
+    return calculate_user_jetton_wallet_address(owner_address, my_address(), storage::jetton_lp_wallet_code);
 }

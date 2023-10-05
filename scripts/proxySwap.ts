@@ -6,11 +6,11 @@ import { randomAddress } from '@ton-community/test-utils';
 
 export async function run(provider: NetworkProvider, args: string[]) {
 
-    const routerAddress = Address.parse('EQAjTnR28ANDITshynZz-Js_QtIFs72xqPmxOoVFnyRi9RoG');
+    const routerAddress = Address.parse('EQBpjR6BdZSL1XqpNAWg65nJNBhE-EZ3F-WK3w-sjvilUUgq');
 
     const router = provider.open(Router.createFromAddress(routerAddress));
 
-    const jettonMinterBAddress = Address.parse('EQDdcF7zjjnSX8Ie7B588ZxY44U3idOAZnddHGmOET8q4E2e');
+    const jettonMinterBAddress = Address.parse('EQDCJL0iQHofcBBvFBHdVG233Ri2V4kCNFgfRT-gqAd3Oc86');
 
     const jettonMinterA = provider.open(JettonMinterA.createFromAddress(jettonMinterBAddress));
 
@@ -19,8 +19,7 @@ export async function run(provider: NetworkProvider, args: string[]) {
     await router.sendProxySwap(provider.sender(), {
         jettonAmount: toNano('1'),
         walletTokenBAddress: routerJettonWalletBAddress,
-        expectedOutput: 1000n,
-        toAddress: provider.sender().address as Address,
-        refAddress: randomAddress()
+        expectedOutput: 1n,
+        toAddress: provider.sender().address as Address
     });
 }
