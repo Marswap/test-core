@@ -8,7 +8,7 @@ export async function run(provider: NetworkProvider, args: string[]) {
 
     // Minter A
 
-    const routerAddress = Address.parse('EQBpjR6BdZSL1XqpNAWg65nJNBhE-EZ3F-WK3w-sjvilUUgq');
+    const routerAddress = Address.parse('EQBJYRwl3zi0VVqqeLlXRBuY_314uiNsAuFSj7aykLcDiRm5');
 
     const jettonMinterA = provider.open(Router.createFromAddress(routerAddress));
 

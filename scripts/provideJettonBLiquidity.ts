@@ -5,7 +5,7 @@ import { JettonMinterA } from '../wrappers/JettonMinterA';
 import { JettonMinterB } from '../wrappers/JettonMinterB';
 
 export async function run(provider: NetworkProvider, args: string[]) {
-    const routerAddress = Address.parse('EQBpjR6BdZSL1XqpNAWg65nJNBhE-EZ3F-WK3w-sjvilUUgq');
+    const routerAddress = Address.parse('EQBJYRwl3zi0VVqqeLlXRBuY_314uiNsAuFSj7aykLcDiRm5');
 
     const userWalletAddressV4 = Address.parse('kQAULcjDZ4TK9huUxR4Vl_Tfa8JRooU3bhvPrmHJHZIPGdKY');
 
