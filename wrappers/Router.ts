@@ -354,6 +354,22 @@ export class Router implements Contract {
         });
     }
 
+    async sendRemovePoolFromDict(provider: ContractProvider, via: Sender, 
+        params: {
+            poolToRemove: Address;
+        } 
+    ) {
+        await provider.internal(via, {
+            value: toNano('0.05'),
+            sendMode: SendMode.PAY_GAS_SEPARATELY,
+            body: beginCell()
+                .storeUint(Opcodes.removePoolFromDict, 32)
+                .storeUint(0, 64)
+                .storeAddress(params.poolToRemove)
+            .endCell()
+        });
+    }
+
     async sendDeployPTonWallet(provider: ContractProvider, via: Sender) {
         await provider.internal(via, {
             value: toNano('0.5'),

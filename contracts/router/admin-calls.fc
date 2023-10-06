@@ -119,6 +119,7 @@
         (slice res, int f) = storage::pools_dict.dict_get?(267, pool_to_remove);
         if (f) {
             storage::pools_dict~dict_delete?(267, pool_to_remove);
+            save_storage();
         } else {
             throw(404);
         }
